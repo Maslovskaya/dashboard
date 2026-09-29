@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Дашборд: сравнение данных из Excel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <div class="wrap">
+      <h1>Дашборд для таблиц Excel</h1>
+      <p class="lead">Загрузите таблицу, сравните значения на графике и найдите лучшую модель.</p>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div id="error" class="error" role="alert" hidden></div>
+
+    <!-- Шаг 1 -->
+    <section class="step" aria-labelledby="h-data">
+      <div class="step-head">
+        <span class="step-no" aria-hidden="true">1</span>
+        <h2 id="h-data">Данные</h2>
+      </div>
+      <div class="step-body">
+        <label class="drop" id="drop" for="file">
+          <input type="file" id="file" accept=".xlsx">
+          <span class="drop-title">Загрузить Excel</span>
+          <span class="drop-hint">Перетащите файл .xlsx сюда или нажмите, чтобы выбрать</span>
+        </label>
+        <div class="side-actions">
+          <button type="button" class="btn ghost" id="sample">Попробовать на примере (процессоры)</button>
+          <p id="status" class="status" aria-live="polite"></p>
+        </div>
+        <div id="preview-wrap" class="table-scroll" hidden>
+          <table id="preview"></table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Шаг 2 -->
+    <section class="step locked" id="step-chart" aria-labelledby="h-chart">
+      <div class="step-head">
+        <span class="step-no" aria-hidden="true">2</span>
+        <h2 id="h-chart">График</h2>
+      </div>
+      <div class="step-body two-col">
+        <div class="controls">
+          <label class="field">Тип графика
+            <select id="chart-type">
+              <option value="bar">Столбчатая диаграмма</option>
+              <option value="pie">Круговая диаграмма</option>
+            </select>
+          </label>
+          <div id="bar-controls">
+            <label class="field">Ось X
+              <select id="x-col"></select>
+            </label>
+            <label class="field">Ось Y (числа)
+              <select id="y-col"></select>
+            </label>
+          </div>
+          <div id="pie-controls" hidden>
+            <label class="field">Считать доли по столбцу
+              <select id="pie-col"></select>
+            </label>
+          </div>
+        </div>
+        <div class="result">
+          <p id="chart-empty" class="empty">Загрузите данные, и здесь появится график.</p>
+          <div class="chart-scroll"><img id="chart-img" alt="" hidden></div>
+          <p id="chart-note" class="note" hidden></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Шаг 3 -->
+    <section class="step locked" id="step-analysis" aria-labelledby="h-analysis">
+      <div class="step-head">
+        <span class="step-no" aria-hidden="true">3</span>
+        <h2 id="h-analysis">Анализ</h2>
+      </div>
+      <div class="step-body two-col">
+        <div class="controls">
+          <fieldset class="checks">
+            <legend>Что рассчитать</legend>
+            <label class="check"><input type="checkbox" id="opt-all"> Выбрать все</label>
+            <label class="check"><input type="checkbox" class="opt" value="max"> Максимум</label>
+            <label class="check"><input type="checkbox" class="opt" value="min"> Минимум</label>
+            <label class="check"><input type="checkbox" class="opt" value="value"> Самая выгодная модель</label>
+          </fieldset>
+          <label class="field">Столбец с названием модели
+            <select id="name-col"></select>
+          </label>
+          <label class="field">Показатель для максимума и минимума
+            <select id="metric-col"></select>
+          </label>
+          <details class="value-cfg">
+            <summary>Как считается выгодность</summary>
+            <p class="small">Выгодность = (произведение выбранных характеристик) / цена × 1000. Чем больше, тем выгоднее.</p>
+            <label class="field">Столбец с ценой
+              <select id="price-col"></select>
+            </label>
+            <fieldset class="checks">
+              <legend>Характеристики (перемножаются)</legend>
+              <div id="perf-list"></div>
+            </fieldset>
+          </details>
+        </div>
+        <div class="result">
+          <p id="analysis-empty" class="empty">Отметьте показатели слева, и здесь появится таблица.</p>
+          <div id="analysis-wrap" class="table-scroll" hidden>
+            <table id="analysis"></table>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap foot">Python · pandas · matplotlib · FastAPI</footer>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.env
+
+# Редакторы и система
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Временные файлы Excel (появляются, когда файл открыт)
+~$*.xlsx
